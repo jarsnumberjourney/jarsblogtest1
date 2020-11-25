@@ -15,7 +15,7 @@
 baseURL = "https://jarsblogtest1.netlify.app/"
 languageCode = "en-us"
 defaultContentLanguage = "en-us"
-title = "Hugo tranquilpeak theme"
+title = "Jars blog for number"
 theme = "hugo-tranquilpeak-theme"
 disqusShortname = "hugo-tranquilpeak-theme"
 # googleAnalytics = "UA-123-45"
@@ -31,7 +31,7 @@ canonifyurls = true
   archive = "archives"
 
 [author]
-  name = "Firstname Lastname"
+  name = "Diah Anjari Dessianti"
   bio = "Super bio with markdown support **COOL**"
   job = "Your job title"
   location = "France"
