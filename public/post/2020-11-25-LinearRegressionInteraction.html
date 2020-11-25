@@ -1,0 +1,83 @@
+---
+title: "Interaction effect in linear regession"
+date: 2020-11-20
+categories: ["R"]
+tags: ["regression", "interaction effect", "plot"]
+output: html_document
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<div id="interpretation" class="section level1">
+<h1>Interpretation</h1>
+<p>Interaction effect is important when we analyzing data. Suppose there is positive relationship between <em>education</em> and <em>effort</em> on <em>test result</em>. Furthermore, there is synergy effect between <em>education</em> and <em>effort</em>. Given high <em>education</em>, a unit increase in effort can lead to higher <em>test result</em> compared to those who has low <em>education</em>.</p>
+<p><span class="math inline">\(test\_score=\beta_1 ×education+ \beta_2 × effort+ \beta_3 ×education×effort + \epsilon\)</span></p>
+<!-- $\frac{\partial \  test\_score}{\partial \ education} =\beta_1 + \beta_3 ×effort $ -->
+<p>Taking derivative wrt education:</p>
+<p><span class="math inline">\(\partial \  test\_score / \partial \ education =\beta_1 + \beta_3 ×effort\)</span></p>
+<p>Hence, a unit change in education is related with <span class="math inline">\(\beta_1 + \beta_3 ×effort\)</span> change in test_score. In other words, the effect of increase in education depends on effort level.</p>
+</div>
+<div id="visualizing" class="section level1">
+<h1>Visualizing</h1>
+<p>In the figure below, I simulated 3 different case.</p>
+<ul>
+<li>Case 1: <span class="math inline">\(test\_score = 2 \times education + 4 \times effort + 2 \times education \times effort\)</span></li>
+<li>Case 2: <span class="math inline">\(test\_score = 2 \times education + 4 \times effort + 0.2 \times education \times effort\)</span></li>
+<li>Case 3: <span class="math inline">\(test\_score = 2 \times education + 4 \times effort + 0 \times education \times effort\)</span></li>
+</ul>
+<p>And the resulting test_score is adjusted such that ranging from 0 to 100. FUrthermore, I added noise in each case. As shown in the figure, ignoring the interaction effect will underfit the data.</p>
+<p><strong>The effect of interaction shown in heatmap</strong>. There is non-linearity for the interaction or synergy effect.</p>
+<p><img src="public/post/2020-11-25-LinearRegressionInteraction_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div id="example" class="section level1">
+<h1>Example</h1>
+<p>We should include the interaction effect in the regression since the interaction terms is statistically significant. And including the interaction term, increase the adjusted <span class="math inline">\(R^2\)</span>.</p>
+<p><img src="public/post/2020-11-25-LinearRegressionInteraction_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<pre><code>## 
+## Call:
+## lm(formula = test_score_n ~ education * effort, data = df_master)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -184.523  -37.609   -1.096   41.359  208.241 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      2.949417   7.248194   0.407    0.684    
+## education        1.837826   0.122473  15.006   &lt;2e-16 ***
+## effort           3.974634   0.126927  31.314   &lt;2e-16 ***
+## education:effort 0.202263   0.002164  93.462   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 58.05 on 996 degrees of freedom
+## Multiple R-squared:  0.9894, Adjusted R-squared:  0.9894 
+## F-statistic: 3.101e+04 on 3 and 996 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = test_score_n ~ education + effort, data = df_master)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -567.32 -109.13    4.97  106.88  573.01 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -502.4249    15.0797  -33.32   &lt;2e-16 ***
+## education     11.6136     0.1990   58.34   &lt;2e-16 ***
+## effort        14.3258     0.1937   73.95   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 181.4 on 997 degrees of freedom
+## Multiple R-squared:  0.8965, Adjusted R-squared:  0.8963 
+## F-statistic:  4317 on 2 and 997 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="the-message" class="section level1">
+<h1>The message</h1>
+<p><strong>Suppose our education level is high, a unit increase in effort lead to a higher increase in income, compared to the case where our education level is low.</strong></p>
+<p>The picture below show that to increase the test score from region 1 to region 2, the increase in effort needed depends on the education level.</p>
+<p><img src="public/post/2020-11-25-LinearRegressionInteraction_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+</div>

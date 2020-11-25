@@ -12,6 +12,18 @@ knitr::opts_chunk$set(collapse = TRUE)
 
 # R Markdown
 
+**This** trial is for:
+
+*This* trial is for:
+
+*This* trial is for:
+
+$$e = mc^2$$
+
+Equation2: $Anjari_{Dessianti}^{hms}$
+
+Equation3: $x^2 = 5x+1$
+
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
 You can embed an R code chunk like this:

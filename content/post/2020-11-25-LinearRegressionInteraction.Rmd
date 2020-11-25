@@ -1,0 +1,168 @@
+---
+title: "Interaction effect in linear regession"
+date: 2020-11-20
+categories: ["R"]
+tags: ["regression", "interaction effect", "plot"]
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+```
+
+# Interpretation
+
+Interaction effect is important when we analyzing data. Suppose there is positive relationship between *education* and *effort* on *test result*. Furthermore, there is synergy effect between *education* and *effort*. Given high *education*, a unit increase in effort can lead to higher *test result* compared to those who has low *education*.
+
+$test\_score=\beta_1 ×education+ \beta_2 × effort+ \beta_3 ×education×effort + \epsilon$
+
+<!-- $\frac{\partial \  test\_score}{\partial \ education} =\beta_1 + \beta_3 ×effort $ -->
+
+Taking derivative wrt education:
+
+$\partial \  test\_score / \partial \ education =\beta_1 + \beta_3 ×effort$
+
+
+Hence, a unit change in education is related with $\beta_1 + \beta_3 ×effort$ change in test_score. In other words, the effect of increase in education depends on effort level.
+
+# Visualizing
+
+In the figure below, I simulated 3 different case.
+
+- Case 1: $test\_score = 2 \times education + 4 \times effort + 2 \times education \times effort$
+- Case 2: $test\_score = 2 \times education + 4 \times effort + 0.2 \times education \times effort$
+- Case 3: $test\_score = 2 \times education + 4 \times effort + 0 \times education \times effort$
+
+And the resulting test_score is adjusted such that ranging from 0 to 100. FUrthermore, I added noise in each case. As shown in the figure, ignoring the interaction effect will underfit the data.
+
+**The effect of interaction shown in heatmap**. There is non-linearity for the interaction or synergy effect.
+
+```{r}
+library(gridExtra)
+library(ggplot2)
+library(dplyr)
+
+#############################################
+##### P1
+df_grid <- expand.grid(education=seq(0,100, by=1), effort=seq(0,100,by=1))
+df_grid <- df_grid %>% 
+  mutate(test_score = 2*education + 4*effort + 2*education*effort,
+         # test_score_n is test score with noise. 
+         test_score_n = test_score + rnorm(n = nrow(df_grid), mean = 0, sd = sd(test_score)/10 ) ) %>%
+  mutate(test_score_n = ntile(test_score_n, 100))
+
+p1 <- ggplot(df_grid, aes(x = education, y = effort, z = test_score_n)) +
+  # stat_contour(geom = "polygon", aes(fill = ..level..)) +
+  geom_tile(aes(fill = test_score_n)) +
+  scale_fill_gradient(low = "green", high = "red")+ 
+  stat_contour(bins = 5) +
+  xlab("education") +
+  ylab("effort") +
+  guides(fill = guide_colorbar(title = "lab")) 
+
+##### P2
+df_grid <- expand.grid(education=seq(0,100, by=1), effort=seq(0,100,by=1))
+df_grid <- df_grid %>% 
+  mutate(test_score = 2*education + 4*effort + 0.2*education*effort,
+         # test_score_n is test score with noise. 
+         test_score_n = test_score + rnorm(n = nrow(df_grid), mean = 0, sd = sd(test_score)/10 ) )  %>%
+  mutate(test_score_n = ntile(test_score_n, 100))
+
+
+p2 <- ggplot(df_grid, aes(x = education, y = effort, z = test_score_n)) +
+  # stat_contour(geom = "polygon", aes(fill = ..level..)) +
+  geom_tile(aes(fill = test_score_n)) +
+  scale_fill_gradient(low = "green", high = "red")+ 
+  stat_contour(bins = 5) +
+  xlab("education") +
+  ylab("effort") +
+  guides(fill = guide_colorbar(title = "lab")) 
+
+##### P3
+df_grid <- expand.grid(education=seq(0,100, by=1), effort=seq(0,100,by=1))
+df_grid <- df_grid %>% 
+  mutate(test_score = 2*education + 4*effort + 0*education*effort,
+         # test_score_n is test score with noise. 
+         test_score_n = test_score + rnorm(n = nrow(df_grid), mean = 0, sd = sd(test_score)/10 ) ) %>%
+  mutate(test_score_n = ntile(test_score_n, 100))
+
+
+p3 <- ggplot(df_grid, aes(x = education, y = effort, z = test_score_n)) +
+  # stat_contour(geom = "polygon", aes(fill = ..level..)) +
+  geom_tile(aes(fill = test_score_n)) +
+  scale_fill_gradient(low = "green", high = "red")+ 
+  stat_contour(bins = 5) +
+  xlab("education") +
+  ylab("effort") +
+  guides(fill = guide_colorbar(title = "lab")) 
+
+
+####
+grid.arrange(p1, p2, p3, nrow = 3)
+
+```
+
+
+# Example
+
+We should include the interaction effect in the regression since the interaction terms is statistically significant. And including the interaction term, increase the adjusted $R^2$.
+
+```{r}
+# load library
+library(dplyr)
+library(ggplot2)
+
+# simulate data
+N_obs = 1000
+set.seed(1)
+df_master <- data.frame(education = runif(n = N_obs, min = 0, max = 100),
+                        effort = runif(n = N_obs, min = 0, max = 100) )
+
+# generate test score with noise
+df_master <- df_master %>% 
+  mutate(test_score = 2*education + 4*effort + 0.2*education*effort,
+         # test_score_n is test score with noise. 
+         test_score_n = test_score + rnorm(n = N_obs, mean = 0, sd = sd(test_score)/10 ) )  
+
+# pairs
+pairs(df_master %>% select(-c(test_score)))
+
+# with interaction
+summary(lm(test_score_n ~ education * effort, data = df_master   ) )
+
+# without interaction
+summary(lm(test_score_n ~ education + effort, data = df_master   ) )
+
+```
+
+
+
+# The message
+
+**Suppose our education level is high, a unit increase in effort lead to a higher increase in income, compared to the case where our education level is low.**
+
+The picture below show that to increase the test score from region 1 to region 2, the increase in effort needed depends on the education level.
+
+```{r}
+df_grid <- expand.grid(education=seq(0,100, by=1), effort=seq(0,100,by=1))
+df_grid <- df_grid %>% 
+  mutate(test_score = 2*education + 4*effort + 0.2*education*effort,
+         # test_score_n is test score with noise. 
+         test_score_n = test_score + rnorm(n = nrow(df_grid), mean = 0, sd = sd(test_score)/10 ) )  
+
+
+
+ggplot(df_grid, aes(x = education, y = effort, z = test_score_n)) +
+  # stat_contour(geom = "polygon", aes(fill = ..level..)) +
+  geom_tile(aes(fill = test_score_n)) +
+  scale_fill_gradient(low = "green", high = "red")+ 
+  stat_contour(bins = 10) +
+  xlab("education") +
+  ylab("effort") +
+  guides(fill = guide_colorbar(title = "lab")) +
+  geom_segment(aes(x = 25, y = 0, xend = 25, yend = 40, colour = "Case 2"), arrow=arrow(), size=1.5) +
+  geom_segment(aes(x = 75, y = 0, xend = 75, yend = 15, colour = "Case 1"), arrow=arrow(), size=1.5) 
+
+
+```
+

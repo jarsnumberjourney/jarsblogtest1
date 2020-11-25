@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>interaction effect on Jars blog for number</title>
+    <link>https://jarsblogtest1.netlify.app/tags/interaction-effect/</link>
+    <description>Recent content in interaction effect on Jars blog for number</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 20 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://jarsblogtest1.netlify.app/tags/interaction-effect/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Interaction effect in linear regession</title>
+      <link>https://jarsblogtest1.netlify.app/2020/11/interaction-effect-in-linear-regession/</link>
+      <pubDate>Fri, 20 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jarsblogtest1.netlify.app/2020/11/interaction-effect-in-linear-regession/</guid>
+      <description>InterpretationInteraction effect is important when we analyzing data. Suppose there is positive relationship between education and effort on test result. Furthermore, there is synergy effect between education and effort. Given high education, a unit increase in effort can lead to higher test result compared to those who has low education.
+\(test\_score=\beta_1 ×education+ \beta_2 × effort+ \beta_3 ×education×effort + \epsilon\)
+Taking derivative wrt education:
+\(\partial \ test\_score / \partial \ education =\beta_1 + \beta_3 ×effort\)</description>
+    </item>
+    
+  </channel>
+</rss>
