@@ -160,8 +160,8 @@ ggplot(df_grid, aes(x = education, y = effort, z = test_score_n)) +
   xlab("education") +
   ylab("effort") +
   guides(fill = guide_colorbar(title = "lab")) +
-  geom_segment(aes(x = 25, y = 0, xend = 25, yend = 40, colour = "Case 2"), arrow=arrow(), size=1.5) +
-  geom_segment(aes(x = 75, y = 0, xend = 75, yend = 15, colour = "Case 1"), arrow=arrow(), size=1.5) 
+  geom_segment(aes(x = 25, y = 31, xend = 25, yend = 74, colour = "Case 2"), arrow=arrow(), size=1.5) +
+  geom_segment(aes(x = 75, y = 9, xend = 75, yend = 27, colour = "Case 1"), arrow=arrow(), size=1.5) 
 
 
 ```
