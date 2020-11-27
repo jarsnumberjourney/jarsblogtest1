@@ -1,0 +1,165 @@
+---
+title: "Sorting interpretation"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
+```
+
+# Introduction
+
+Sorting is non-parametric approach. Using sorting we can analyze the relationship between x and y. The advantage of sorting are 1) the ability to capture non-linearity, 2) easy to implement, 3) clear interpretation of the result. The disadvantage of sorting is difficulties to control for many variables.
+
+The intuition behind sorting is similar with the basic in statistics (for example, nearest K neighborhood), where we can calculate $E[y|x = X]$ by using some data point near $x = X$.
+
+Sorting is widely used in finance research since it reflects the portfolio return.
+
+# Simulated data
+
+```{r}
+library(gridExtra)
+library(ggplot2)
+library(dplyr)
+
+```
+
+
+$test\_score\_n=\beta_1 ×education+ \beta_2 × effort+ \beta_3 ×education×effort + \epsilon$
+
+```{r}
+
+
+# simulate data
+N_obs = 1000
+set.seed(1)
+df_master <- data.frame(education = runif(n = N_obs, min = 0, max = 100),
+                        effort = runif(n = N_obs, min = 0, max = 100) )
+
+# generate test score with noise
+df_master <- df_master %>% 
+  mutate(test_score = 2*education + 4*effort + 0.2*education*effort,
+         # test_score_n is test score with noise. 
+         test_score_n = test_score + rnorm(n = N_obs, mean = 0, sd = sd(test_score)/10 ) )  
+
+# pairs
+# pairs(df_master %>% select(-c(test_score)))
+
+library(GGally)
+ggpairs(df_master %>% select(-test_score))
+
+```
+
+# Sorting on y
+
+Conditional on high test score, what is the average of education.
+
+$E[education | test\_score\_n = group\ 5]$
+
+The result of sort is as expected when we check the plot region. The group 1 (group 5) has the highest (lowest) standard deviation and lowest (highest) mean in X dimension.
+
+```{r}
+##### Sorting
+df_sort <- df_master %>%
+  # assign port based on y
+  mutate(port = ntile(test_score_n, 5) ) %>%
+  # calculate mean and sd of x
+  group_by(port) %>%
+  summarise(mean_x = mean(education),
+            sd_x = sd(education) ) %>%
+  ungroup()
+
+# ggplot(data = df_sort, aes(x = port, y = mean_x, ymin = mean_x - sd_x,
+#                            ymax = mean_x + sd_x)) +
+#   geom_pointrange()
+
+ggplot(data = df_sort, 
+       aes(x = mean_x, y = port, xmin = mean_x - sd_x,
+                           xmax = mean_x + sd_x)) +
+  geom_pointrange()
+
+##### plot by region
+df_line <- df_master %>%
+  # assign port based on y
+  mutate(port = ntile(test_score_n, 5) )  %>%
+  group_by(port) %>%
+  summarise(test_score_n_min = min(test_score_n),
+            test_score_n_max = max(test_score_n),
+            test_score_n_mean = mean(test_score_n),
+            ) %>%
+  ungroup()
+
+#Breaks for background rectangles
+# ref for different color background: https://stackoverflow.com/questions/9968975/make-the-background-of-a-graph-different-colours-in-different-regions
+rects <- data.frame(ystart = df_line$test_score_n_min, 
+                    yend = df_line$test_score_n_max, col = as.factor(1:5))
+
+ggplot() +
+  geom_rect(data = rects, 
+            aes(xmin = -Inf, xmax = Inf, ymin = ystart, ymax = yend,
+                              fill = col), alpha = 0.4) +
+  geom_point(data = df_master %>% 
+         select(education, test_score_n ),
+       aes(x = education, y = test_score_n)  ) 
+
+
+
+
+```
+
+# Sorting on x
+
+Conditional on high education, what is the average of test score. The result is as expected as we see the pairs plot between education and test_score_n.
+
+$E[test\_score\_n  | education  = group\ 5]$
+
+The result of sort is as expected when we check the plot region. The group 1 (group 5) has the lowest (highest) standard deviation and lowest (highest) mean in Y dimension.
+
+```{r}
+##### Sorting
+df_sort <- df_master %>%
+  # assign port based on x
+  mutate(port = ntile(education, 5) ) %>%
+  # calculate mean and sd of y
+  group_by(port) %>%
+  summarise(mean_y = mean(test_score_n),
+            sd_y = sd(test_score_n) ) %>%
+  ungroup()
+
+ggplot(data = df_sort, aes(x = port, y = mean_y, ymin = mean_y - sd_y,
+                           ymax = mean_y + sd_y)) +
+  geom_pointrange()
+
+##### plot by region
+df_line <- df_master %>%
+  # assign port based on y
+  mutate(port = ntile(education, 5) )  %>%
+  group_by(port) %>%
+  summarise(education_min = min(education),
+            education_max = max(education),
+            education_mean = mean(education),
+            ) %>%
+  ungroup()
+
+#Breaks for background rectangles
+# ref for different color background: https://stackoverflow.com/questions/9968975/make-the-background-of-a-graph-different-colours-in-different-regions
+rects <- data.frame(xstart = df_line$education_min, 
+                    xend = df_line$education_max, col = as.factor(1:5))
+
+ggplot() +
+  geom_rect(data = rects, 
+            aes(xmin = xstart, xmax = xend, ymin = -Inf, ymax = Inf,
+                              fill = col), alpha = 0.4) +
+  geom_point(data = df_master %>% 
+         select(education, test_score_n ),
+       aes(x = education, y = test_score_n)  ) 
+
+
+
+
+
+```
+
+
+
+
