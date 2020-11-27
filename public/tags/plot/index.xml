@@ -6,7 +6,17 @@
     <description>Recent content in plot on Jars blog for number</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 20 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://jarsblogtest1.netlify.app/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 27 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://jarsblogtest1.netlify.app/tags/plot/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Sorting interpretation</title>
+      <link>https://jarsblogtest1.netlify.app/2020/11/sorting-interpretation/</link>
+      <pubDate>Fri, 27 Nov 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://jarsblogtest1.netlify.app/2020/11/sorting-interpretation/</guid>
+      <description>IntroductionSorting is non-parametric approach. Using sorting we can analyze the relationship between x and y. The advantage of sorting are 1) the ability to capture non-linearity, 2) easy to implement, 3) clear interpretation of the result. The disadvantage of sorting is difficulties to control for many variables.
+The intuition behind sorting is similar with the basic in statistics (for example, nearest K neighborhood), where we can calculate \(E[y|x = X]\) by using some data point near \(x = X\).</description>
+    </item>
+    
     <item>
       <title>Interaction effect in linear regession</title>
       <link>https://jarsblogtest1.netlify.app/2020/11/interaction-effect-in-linear-regession/</link>

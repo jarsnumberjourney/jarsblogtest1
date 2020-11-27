@@ -4,7 +4,47 @@
   
   <url>
     <loc>https://jarsblogtest1.netlify.app/categories/</loc>
-    <lastmod>2020-11-20T00:00:00+00:00</lastmod>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/tags/plot/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/post/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/categories/r/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/tags/sort/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/2020/11/sorting-interpretation/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/tags/statistics/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jarsblogtest1.netlify.app/tags/</loc>
+    <lastmod>2020-11-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -18,32 +58,7 @@
   </url>
   
   <url>
-    <loc>https://jarsblogtest1.netlify.app/</loc>
-    <lastmod>2020-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jarsblogtest1.netlify.app/tags/plot/</loc>
-    <lastmod>2020-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jarsblogtest1.netlify.app/post/</loc>
-    <lastmod>2020-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jarsblogtest1.netlify.app/categories/r/</loc>
-    <lastmod>2020-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://jarsblogtest1.netlify.app/tags/regression/</loc>
-    <lastmod>2020-11-20T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://jarsblogtest1.netlify.app/tags/</loc>
     <lastmod>2020-11-20T00:00:00+00:00</lastmod>
   </url>
   

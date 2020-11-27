@@ -1,0 +1,37 @@
+---
+title: "Sorting interpretation"
+date: 2020-11-27
+categories: ["R"]
+tags: ["sort", "statistics", "plot"]
+output: html_document
+---
+
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Sorting is non-parametric approach. Using sorting we can analyze the relationship between x and y. The advantage of sorting are 1) the ability to capture non-linearity, 2) easy to implement, 3) clear interpretation of the result. The disadvantage of sorting is difficulties to control for many variables.</p>
+<p>The intuition behind sorting is similar with the basic in statistics (for example, nearest K neighborhood), where we can calculate <span class="math inline">\(E[y|x = X]\)</span> by using some data point near <span class="math inline">\(x = X\)</span>.</p>
+<p>Sorting is widely used in finance research since it reflects the portfolio return.</p>
+</div>
+<div id="simulated-data" class="section level1">
+<h1>Simulated data</h1>
+<p><span class="math inline">\(test\_score\_n=\beta_1 ×education+ \beta_2 × effort+ \beta_3 ×education×effort + \epsilon\)</span></p>
+<p><img src="/post/2020-11-27-SortInterpretation_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+</div>
+<div id="sorting-on-y" class="section level1">
+<h1>Sorting on y</h1>
+<p>Conditional on high test score, what is the average of education.</p>
+<p><span class="math inline">\(E[education | test\_score\_n = group\ 5]\)</span></p>
+<p>The result of sort is as expected when we check the plot region. The group 1 (group 5) has the highest (lowest) standard deviation and lowest (highest) mean in X dimension.</p>
+<p><img src="/post/2020-11-27-SortInterpretation_files/figure-html/unnamed-chunk-3-1.png" width="672" /><img src="/post/2020-11-27-SortInterpretation_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+</div>
+<div id="sorting-on-x" class="section level1">
+<h1>Sorting on x</h1>
+<p>Conditional on high education, what is the average of test score. The result is as expected as we see the pairs plot between education and test_score_n.</p>
+<p><span class="math inline">\(E[test\_score\_n | education = group\ 5]\)</span></p>
+<p>The result of sort is as expected when we check the plot region. The group 1 (group 5) has the lowest (highest) standard deviation and lowest (highest) mean in Y dimension.</p>
+<p><img src="/post/2020-11-27-SortInterpretation_files/figure-html/unnamed-chunk-4-1.png" width="672" /><img src="/post/2020-11-27-SortInterpretation_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+</div>
