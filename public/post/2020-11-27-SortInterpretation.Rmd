@@ -3,7 +3,7 @@ title: "Sorting interpretation"
 date: 2020-11-27
 categories: ["R"]
 tags: ["sort", "statistics", "plot"]
-blogdown::html_page
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
